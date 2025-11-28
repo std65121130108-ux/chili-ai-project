@@ -27,13 +27,11 @@ st.markdown("""
         background: linear-gradient(135deg, #FF416C 0%, #FF4B2B 100%) !important;
     }
 
-    /* 2. ปรับแต่ง "การ์ด" (Card) ให้เหมือน .glass-card ใน HTML */
+    /* 2. ปรับแต่ง "การ์ด" (Card) ให้เป็นสีขาวทึบ */
     [data-testid="stVerticalBlockBorderWrapper"] {
-        background: rgba(255, 255, 255, 0.95) !important;
-        backdrop-filter: blur(10px) !important;
-        -webkit-backdrop-filter: blur(10px) !important;
+        background-color: #ffffff !important; /* สีขาวทึบ 100% */
         border-radius: 24px !important;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        border: none !important;
         box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2) !important;
         padding: 40px 30px !important;
         margin-bottom: 20px;

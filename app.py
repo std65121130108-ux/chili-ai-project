@@ -12,6 +12,20 @@ st.set_page_config(
 )
 
 # --- 2. 🎨 CSS ตกแต่ง (Design: Premium Glassmorphism) ---
+import streamlit as st
+import tensorflow as tf
+from PIL import Image, ImageOps
+import numpy as np
+import os
+
+# --- 1. ตั้งค่าหน้าเว็บ ---
+st.set_page_config(
+    page_title="Chili Doctor AI",
+    page_icon="🌶️",
+    layout="centered"
+)
+
+# --- 2. 🎨 CSS ตกแต่ง (Design: Premium Glassmorphism) ---
 st.markdown("""
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>

@@ -11,82 +11,83 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- 🎨 ส่วนตกแต่ง CSS ---
+# --- 🎨 ส่วนตกแต่ง CSS (Updated V.2 - บังคับให้ทำงาน 100%) ---
 st.markdown("""
 <style>
     /* นำเข้าฟอนต์ Prompt */
     @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap');
     
-    /* 1. พื้นหลังหลัก: สีส้มแดงสดใส */
-    .stApp {
-        background: linear-gradient(135deg, #FF416C 0%, #FF4B2B 100%);
+    /* บังคับฟอนต์ทั้งหน้า */
+    html, body, [class*="css"] {
         font-family: 'Prompt', sans-serif;
-        color: #333333;
-    }
-
-    /* 2. กล่องหลัก (Main Container) */
-    .main .block-container {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border-radius: 24px;
-        padding: 2.5rem;
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-        max-width: 700px;
-        margin-top: 2rem;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-
-    /* หัวข้อ */
-    h1 {
-        color: #333;
-        font-weight: 600;
-        text-align: center;
-        padding-bottom: 0.5rem;
     }
     
+    /* 1. พื้นหลังหลัก: สีส้มแดงสดใส */
+    /* ใช้ selector ที่ครอบคลุมที่สุด */
+    .stApp, [data-testid="stAppViewContainer"] {
+        background: linear-gradient(135deg, #FF416C 0%, #FF4B2B 100%) !important;
+    }
+
+    /* 2. กล่องเนื้อหาตรงกลาง (Glass Card) */
+    /* เปลี่ยนวิธีเรียกเป็น data-testid เพื่อความแม่นยำ */
+    [data-testid="block-container"] {
+        background: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(10px);
+        border-radius: 24px !important;
+        padding: 3rem 2rem !important; /* เพิ่ม padding ให้ดูโปร่ง */
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2) !important;
+        max-width: 700px;
+    }
+
+    /* หัวข้อ h1 */
+    h1 {
+        color: #333 !important;
+        font-weight: 700 !important;
+        text-align: center;
+    }
+    
+    /* ซ่อน Header/Footer ของ Streamlit */
     #MainMenu {visibility: hidden;}
     header {visibility: hidden;}
     footer {visibility: hidden;}
     
-    /* 3. ปุ่มกด: สีส้มแดง */
+    /* 3. ปรับแต่งปุ่มกด (Button) - บังคับด้วย !important */
     div.stButton > button {
-        background: linear-gradient(90deg, #FF416C 0%, #FF4B2B 100%);
-        color: white;
-        border: none;
-        border-radius: 50px;
-        padding: 0.6rem 2rem;
-        font-size: 1.1rem;
-        font-weight: 600;
-        width: 100%;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4);
+        background: linear-gradient(90deg, #FF416C 0%, #FF4B2B 100%) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 50px !important;
+        padding: 0.6rem 2rem !important;
+        font-size: 1.1rem !important;
+        font-weight: 600 !important;
+        width: 100% !important;
+        box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4) !important;
+        transition: all 0.3s ease !important;
     }
     div.stButton > button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(255, 65, 108, 0.6);
-        background: linear-gradient(90deg, #ff5b7a 0%, #ff6b4b 100%);
-        color: white;
+        box-shadow: 0 6px 20px rgba(255, 65, 108, 0.6) !important;
+        color: white !important;
     }
     
-    /* 4. File Uploader: ปรับแต่งช่อง Dropzone ให้เด่นขึ้น */
-    section[data-testid="stFileUploader"] {
-        background-color: #f8f9fa; /* สีพื้นหลังช่อง drop เป็นเทาจางๆ */
-        border-radius: 15px;
-        padding: 10px;
-        border: 1px dashed #ccc; /* เพิ่มเส้นประให้เห็นชัด */
-    }
-    
-    /* 5. ปรับแต่งกรอบที่เราสร้าง (st.container border) - บังคับสีขาวด้วย !important */
+    /* 4. ปรับแต่งกรอบ Input Frame (st.container border) */
     [data-testid="stVerticalBlockBorderWrapper"] {
-        background-color: #ffffff !important; /* <--- บังคับเป็นสีขาว */
+        background-color: #ffffff !important;
         border: 2px solid rgba(255, 75, 43, 0.2) !important;
         border-radius: 20px !important;
-        padding: 25px !important;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.08) !important;
+        padding: 20px !important;
+        margin-bottom: 20px !important;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05) !important;
     }
     
-    /* Custom Header Style */
+    /* File Uploader Area */
+    [data-testid="stFileUploaderDropzone"] {
+        background-color: #f8f9fa !important;
+        border: 1px dashed #FF4B2B !important;
+        border-radius: 10px !important;
+    }
+
+    /* Custom Header Style (HTML) */
     .custom-header {
         text-align: center;
         margin-bottom: 20px;
@@ -114,10 +115,11 @@ st.markdown("""
         margin-bottom: 5px;
     }
     
-    .stAlert {
-        border-radius: 12px;
-        border: none;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    /* Alert Boxes */
+    [data-testid="stAlert"] {
+        border-radius: 12px !important;
+        border: none !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.03) !important;
     }
     
     @keyframes pulse {

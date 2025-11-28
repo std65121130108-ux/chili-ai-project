@@ -11,36 +11,38 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- 🎨 ส่วนตกแต่ง CSS (ทำให้สวยเหมือนหน้า Portal) ---
+# --- 🎨 ส่วนตกแต่ง CSS (โทนสี Soft & Clean) ---
 st.markdown("""
 <style>
     /* นำเข้าฟอนต์ Prompt */
     @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap');
     
-    /* เปลี่ยนพื้นหลังทั้งหน้า */
+    /* เปลี่ยนพื้นหลังทั้งหน้า: ใช้สีขาวอมชมพูอ่อนๆ สบายตา */
     .stApp {
-        background: linear-gradient(135deg, #FF416C 0%, #FF4B2B 100%);
+        background: linear-gradient(135deg, #fffbfb 0%, #fff0f0 100%);
         font-family: 'Prompt', sans-serif;
+        color: #333333; /* สีตัวอักษรหลัก: เทาเข้ม */
     }
 
-    /* ปรับแต่งกล่องหลัก (Main Container) ให้เป็นกระจก */
+    /* ปรับแต่งกล่องหลัก (Main Container) */
     .main .block-container {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border-radius: 24px;
-        padding: 2rem;
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+        background: rgba(255, 255, 255, 0.85); /* พื้นหลังขาวโปร่งแสง */
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* เงาจางๆ นุ่มๆ */
         max-width: 700px;
         margin-top: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.5);
     }
 
     /* ปรับแต่งหัวข้อ */
     h1 {
-        color: #333;
+        color: #2c3e50;
         font-weight: 600;
         text-align: center;
-        padding-bottom: 0;
+        padding-bottom: 0.5rem;
     }
     
     /* ซ่อน Header/Footer เดิมของ Streamlit */
@@ -48,66 +50,76 @@ st.markdown("""
     header {visibility: hidden;}
     footer {visibility: hidden;}
     
-    /* ปรับแต่งปุ่มกด (Button) */
+    /* ปรับแต่งปุ่มกด (Button): สีส้มพีช/คอรัล นุ่มๆ */
     div.stButton > button {
-        background: linear-gradient(90deg, #FF416C 0%, #FF4B2B 100%);
+        background: linear-gradient(90deg, #ff9a9e 0%, #ff6b6b 100%);
         color: white;
         border: none;
         border-radius: 50px;
-        padding: 0.5rem 2rem;
+        padding: 0.6rem 2rem;
         font-size: 1.1rem;
-        font-weight: 600;
+        font-weight: 500;
         width: 100%;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4);
+        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2);
+        letter-spacing: 0.5px;
     }
     div.stButton > button:hover {
-        transform: scale(1.02);
-        box-shadow: 0 6px 20px rgba(255, 65, 108, 0.6);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        background: linear-gradient(90deg, #ff8a8e 0%, #ff5b5b 100%);
         color: white;
     }
     div.stButton > button:active {
         color: white;
+        transform: translateY(0);
     }
 
-    /* ปรับแต่ง File Uploader */
+    /* ปรับแต่ง File Uploader: สีเทาอ่อน สะอาดตา */
     .stFileUploader {
-        border: 2px dashed #FF4B2B;
+        border: 2px dashed #e0e0e0;
         border-radius: 15px;
-        padding: 10px;
-        background: rgba(255, 255, 255, 0.5);
+        padding: 15px;
+        background: #f8f9fa;
+        transition: border-color 0.3s;
+    }
+    .stFileUploader:hover {
+        border-color: #ff9a9e;
     }
     
     /* Custom Header Style */
     .custom-header {
         text-align: center;
-        margin-bottom: 30px;
+        margin-bottom: 35px;
     }
     .app-icon {
-        width: 80px;
-        height: 80px;
-        background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+        width: 90px;
+        height: 90px;
+        /* พื้นหลังไอคอนไล่สีจางๆ */
+        background: linear-gradient(135deg, #fff0f0 0%, #ffe4e4 100%);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 40px;
+        font-size: 45px;
         margin: 0 auto 15px;
-        box-shadow: 0 4px 15px rgba(255, 75, 43, 0.3);
-        animation: pulse 2s infinite;
+        box-shadow: 0 8px 20px rgba(255, 100, 100, 0.1);
+        border: 3px solid white;
     }
     .subtitle {
-        color: #d32f2f;
+        color: #e57373; /* สีแดงอ่อน */
         font-weight: 500;
-        font-size: 0.9rem;
-        letter-spacing: 1px;
+        font-size: 0.95rem;
+        letter-spacing: 1.5px;
         text-transform: uppercase;
+        margin-bottom: 5px;
     }
     
-    @keyframes pulse {
-        0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 75, 43, 0.4); }
-        70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 75, 43, 0); }
-        100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 75, 43, 0); }
+    /* ปรับแต่งข้อความสถานะ (Info, Success, Error) ให้ดู Modern */
+    .stAlert {
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.03);
     }
 </style>
 """, unsafe_allow_html=True)
@@ -162,14 +174,14 @@ st.markdown("""
     <div class="custom-header">
         <div class="app-icon">🌶️</div>
         <div class="subtitle">AI Expert System</div>
-        <h1 style="margin-top: 0;">Chili Doctor AI</h1>
+        <h1 style="margin-top: 0; color: #2c3e50;">Chili Doctor AI</h1>
     </div>
 """, unsafe_allow_html=True)
 
 st.markdown("""
-<p style="text-align: center; color: #666; margin-bottom: 30px;">
+<p style="text-align: center; color: #7f8c8d; margin-bottom: 30px; line-height: 1.6;">
     ระบบผู้เชี่ยวชาญปัญญาประดิษฐ์เพื่อวินิจฉัยโรคของพริกจากใบ <br>
-    <b>โปรดอัปโหลดรูปภาพใบพริกเพื่อเริ่มต้น</b>
+    <span style="font-size: 0.9rem; color: #95a5a6;">(กรุณาอัปโหลดรูปภาพที่เห็นใบพริกชัดเจน)</span>
 </p>
 """, unsafe_allow_html=True)
 
@@ -203,24 +215,26 @@ else:
             result_class = class_names[class_index]
             confidence = np.max(predictions) * 100
 
-        # แสดงผลลัพธ์แบบการ์ด Alert
-        st.markdown("<hr>", unsafe_allow_html=True)
+        # แสดงผลลัพธ์แบบการ์ด Alert สไตล์มินิมอล
+        st.markdown("<hr style='border-top: 1px solid #eee; margin: 30px 0;'>", unsafe_allow_html=True)
         st.markdown(f"""
-            <div style="background-color: #d1e7dd; color: #0f5132; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 10px;">
-                <h3 style="margin:0; color: #0f5132;">ผลการวิเคราะห์: <b>{result_class}</b></h3>
+            <div style="background-color: #f0fff4; border: 1px solid #c3e6cb; padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 15px;">
+                <h4 style="margin:0; color: #155724; font-weight: 600;">ผลการวิเคราะห์: <span style="font-size: 1.4rem;">{result_class}</span></h4>
             </div>
-            <p style="text-align: center; font-weight: bold; color: #666;">ความมั่นใจ (Confidence): {confidence:.2f}%</p>
+            <p style="text-align: center; color: #6c757d; font-size: 0.9rem;">ความมั่นใจ (Confidence): <b>{confidence:.2f}%</b></p>
         """, unsafe_allow_html=True)
 
         # คำแนะนำ
         treatment_text = ""
-        treatment_color = "#fff3cd" # สีเหลืองอ่อน
-        text_color = "#664d03"
+        treatment_bg = "#fff8e1" # สีเหลืองอ่อนมากๆ
+        treatment_border = "#ffeeba"
+        text_color = "#856404"
 
         if result_class == 'healthy':
             treatment_text = "✅ **ต้นพริกแข็งแรงดี!** ไม่พบร่องรอยโรค หมั่นดูแลรดน้ำตามปกติ"
-            treatment_color = "#d1e7dd" # สีเขียว
-            text_color = "#0f5132"
+            treatment_bg = "#d4edda" # เขียวอ่อน
+            treatment_border = "#c3e6cb"
+            text_color = "#155724"
         elif result_class == 'leaf curl':
             treatment_text = "⚠️ **คำแนะนำ:** โรคใบหงิกมักเกิดจากแมลงหวี่ขาว ให้กำจัดวัชพืชและใช้สารสกัดสะเดา หรือเชื้อราเมตาไรเซียมฉีดพ่น"
         elif result_class == 'leaf spot':
@@ -230,17 +244,17 @@ else:
         elif result_class == 'yellow':
              treatment_text = "⚠️ **คำแนะนำ:** อาการใบเหลือง อาจเกิดจากการขาดสารอาหาร หรือไวรัส ควรตรวจสอบดินและใส่ปุ๋ยบำรุง"
              
-        # แสดงคำแนะนำ
+        # แสดงคำแนะนำในกล่องที่ดูสะอาดตา
         st.markdown(f"""
-            <div style="background-color: {treatment_color}; color: {text_color}; padding: 15px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.1);">
+            <div style="background-color: {treatment_bg}; color: {text_color}; padding: 18px; border-radius: 12px; border: 1px solid {treatment_border}; line-height: 1.6;">
                 {treatment_text}
             </div>
         """, unsafe_allow_html=True)
 
 # Footer สวยๆ
 st.markdown("""
-<div style="text-align: center; margin-top: 50px; color: #999; font-size: 0.8rem;">
+<div style="text-align: center; margin-top: 60px; color: #b0b0b0; font-size: 0.8rem; border-top: 1px solid #f0f0f0; padding-top: 20px;">
     โครงงานวิจัยทางคอมพิวเตอร์ • มหาวิทยาลัยราชภัฏอุบลราชธานี<br>
-    พัฒนาโดย: แมวสีขาวเทา และผองเพื่อน
+    <span style="font-size: 0.75rem;">พัฒนาโดย: แมวสีขาวเทา และผองเพื่อน</span>
 </div>
 """, unsafe_allow_html=True)

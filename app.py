@@ -179,7 +179,7 @@ def load_model():
     
     # เช็คว่ามีไฟล์ไหม ถ้าไม่มีให้โหลด
     if not os.path.exists(filename):
-        file_id = '1tURhAR8mXLAgnuU3EULswpcFGxnalWAV'
+        file_id = '1wQmgg_k45ymxx-sQJ33HdWVYlhVSqzuJ'
         url = f'https://drive.google.com/uc?id={file_id}'
         
         # 1. สร้าง Placeholder เพื่อจองพื้นที่แสดงข้อความ

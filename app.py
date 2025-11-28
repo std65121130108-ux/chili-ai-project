@@ -26,18 +26,6 @@ st.markdown("""
     .stApp, [data-testid="stAppViewContainer"] {
         background: linear-gradient(135deg, #FF416C 0%, #FF4B2B 100%) !important;
     }
-
-    /* 2. ปรับแต่ง "กรอบ/การ์ด" (Container) ให้เป็นสีขาวทึบ */
-    /* ใช้ selector ที่เจาะจง st.container(border=True) */
-    [data-testid="stVerticalBlockBorderWrapper"] {
-        background-color: #FFFFFF !important; /* สีขาวทึบ 100% */
-        background: #FFFFFF !important;
-        border-radius: 24px !important;
-        border: none !important;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2) !important; /* เงาชัดๆ */
-        padding: 40px 30px !important;
-        margin-bottom: 20px;
-    }
     
     /* ป้องกันสีพื้นหลังซ้อนทับ */
     [data-testid="stVerticalBlockBorderWrapper"] > div {

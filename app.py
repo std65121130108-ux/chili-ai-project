@@ -28,13 +28,12 @@ st.markdown("""
     }
 
     /* 2. ปรับแต่ง "กรอบ/การ์ด" (Container) ให้เป็นสีขาวทึบ */
-    /* ใช้ selector ที่เจาะจง st.container(border=True) */
     [data-testid="stVerticalBlockBorderWrapper"] {
-        background-color: #FFFFFF !important; /* สีขาวทึบ 100% */
+        background-color: #FFFFFF !important;
         background: #FFFFFF !important;
         border-radius: 24px !important;
         border: none !important;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2) !important; /* เงาชัดๆ */
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2) !important;
         padding: 40px 30px !important;
         margin-bottom: 20px;
     }
@@ -44,7 +43,7 @@ st.markdown("""
         background-color: transparent !important;
     }
     
-    /* ซ่อน Header/Footer เดิมของ Streamlit */
+    /* ซ่อน Header/Footer เดิม */
     #MainMenu {visibility: hidden;}
     header {visibility: hidden;}
     footer {visibility: hidden;}
@@ -126,7 +125,7 @@ st.markdown("""
     /* 7. Footer */
     .footer-credit {
         font-size: 0.8rem;
-        color: #fff; /* สีขาว เพื่อให้อ่านง่ายบนพื้นหลังส้ม */
+        color: #fff;
         margin-top: 30px;
         padding-top: 15px;
         text-align: center;
@@ -187,7 +186,7 @@ def import_and_predict(image_data, model):
 
 model = load_model()
 
-# สร้าง Container (Card สีขาว)
+# --- ⭐ สร้างกรอบขาว (Card) เดียวครอบทั้งหมด ⭐ ---
 with st.container(border=True):
     
     # 1. ส่วนหัว (Icon + Titles)
@@ -215,7 +214,7 @@ with st.container(border=True):
             </div>
         """, unsafe_allow_html=True)
 
-    # 3. ส่วนแสดงผล
+    # 3. ส่วนแสดงผล (แสดงต่อจากส่วนอัปโหลดในกรอบเดียวกัน)
     if file is not None:
         image = Image.open(file)
         

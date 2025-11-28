@@ -11,13 +11,13 @@ st.set_page_config(
     layout="centered"
 )
 
-# --- 🎨 ส่วนตกแต่ง CSS (ธีมสีสดใส เหมือนหน้า Portal) ---
+# --- 🎨 ส่วนตกแต่ง CSS ---
 st.markdown("""
 <style>
     /* นำเข้าฟอนต์ Prompt */
     @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap');
     
-    /* 1. พื้นหลัง: สีส้มแดงสดใส */
+    /* 1. พื้นหลังหลัก: สีส้มแดงสดใส */
     .stApp {
         background: linear-gradient(135deg, #FF416C 0%, #FF4B2B 100%);
         font-family: 'Prompt', sans-serif;
@@ -69,19 +69,21 @@ st.markdown("""
         color: white;
     }
     
-    /* 4. File Uploader: ปรับแต่งให้ดูสะอาดตาในกรอบ */
-    .stFileUploader {
+    /* 4. File Uploader: ปรับแต่งช่อง Dropzone ให้เด่นขึ้น */
+    section[data-testid="stFileUploader"] {
+        background-color: #f8f9fa; /* สีพื้นหลังช่อง drop เป็นเทาจางๆ */
         border-radius: 15px;
-        padding: 5px;
+        padding: 10px;
+        border: 1px dashed #ccc; /* เพิ่มเส้นประให้เห็นชัด */
     }
     
-    /* 5. ปรับแต่งกรอบที่เราเพิ่งสร้าง (st.container border) */
+    /* 5. ปรับแต่งกรอบที่เราสร้าง (st.container border) - บังคับสีขาวด้วย !important */
     [data-testid="stVerticalBlockBorderWrapper"] {
-        border: 2px solid rgba(255, 75, 43, 0.15) !important; /* เส้นขอบสีส้มจางๆ */
+        background-color: #ffffff !important; /* <--- บังคับเป็นสีขาว */
+        border: 2px solid rgba(255, 75, 43, 0.2) !important;
         border-radius: 20px !important;
-        background: #ffffff; /* <--- เปลี่ยนเป็นสีขาวทึบ (White) */
-        padding: 20px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* เพิ่มเงานิดหน่อยให้ดูลอยเด่น */
+        padding: 25px !important;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08) !important;
     }
     
     /* Custom Header Style */
@@ -135,7 +137,6 @@ def load_model():
         file_id = '1tURhAR8mXLAgnuU3EULswpcFGxnalWAV'
         url = f'https://drive.google.com/uc?id={file_id}'
         
-        # ใช้ container เปล่าเพื่อแสดงข้อความโหลดแบบสวยๆ
         with st.status("⏳ กำลังดาวน์โหลดโมเดลจาก Cloud... (ครั้งแรกเท่านั้น)", expanded=True) as status:
             try:
                 import gdown
@@ -179,10 +180,9 @@ if model is None:
 
 class_names = ['healthy', 'leaf curl', 'leaf spot', 'whitefly', 'yellow']
 
-# --- สร้างกรอบ (Input Frame) ---
-# ใช้ st.container(border=True) เพื่อสร้างกรอบล้อมรอบส่วน Header และ Input
+# --- สร้างกรอบ (Input Frame) พร้อมพื้นหลังสีขาว ---
 with st.container(border=True):
-    # สร้างส่วนหัวแบบ Custom HTML เพื่อให้เหมือนหน้า Portal
+    # ส่วนหัว
     st.markdown("""
         <div class="custom-header">
             <div class="app-icon">🌶️</div>
@@ -198,20 +198,18 @@ with st.container(border=True):
     </p>
     """, unsafe_allow_html=True)
 
-    # ส่วนอัปโหลด (อยู่ในกรอบด้วย)
+    # ส่วนอัปโหลด
     file = st.file_uploader("", type=["jpg", "png", "jpeg"])
 
-# --- ส่วนแสดงผลลัพธ์ (อยู่นอกกรอบ Input) ---
+# --- ส่วนแสดงผลลัพธ์ ---
 if file is None:
     st.info("👆 กรุณาเลือกรูปภาพ (.jpg, .png) จากเครื่องของคุณ")
 else:
     image = Image.open(file)
-    # แสดงรูปภาพแบบจัดกึ่งกลางและมีมุมมน
     st.markdown('<br><div style="text-align: center;">', unsafe_allow_html=True)
     st.image(image, use_container_width=True)
     st.markdown('</div>', unsafe_allow_html=True)
     
-    # เว้นวรรคนิดหน่อย
     st.markdown("<br>", unsafe_allow_html=True)
     
     if st.button("🔍 วิเคราะห์โรค"):
@@ -221,7 +219,7 @@ else:
             result_class = class_names[class_index]
             confidence = np.max(predictions) * 100
 
-        # แสดงผลลัพธ์แบบการ์ด Alert สไตล์มินิมอล
+        # แสดงผลลัพธ์
         st.markdown("<hr style='border-top: 1px solid #eee; margin: 30px 0;'>", unsafe_allow_html=True)
         st.markdown(f"""
             <div style="background-color: #f0fff4; border: 1px solid #c3e6cb; padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 15px;">
@@ -232,13 +230,13 @@ else:
 
         # คำแนะนำ
         treatment_text = ""
-        treatment_bg = "#fff8e1" # สีเหลืองอ่อนมากๆ
+        treatment_bg = "#fff8e1"
         treatment_border = "#ffeeba"
         text_color = "#856404"
 
         if result_class == 'healthy':
             treatment_text = "✅ **ต้นพริกแข็งแรงดี!** ไม่พบร่องรอยโรค หมั่นดูแลรดน้ำตามปกติ"
-            treatment_bg = "#d4edda" # เขียวอ่อน
+            treatment_bg = "#d4edda"
             treatment_border = "#c3e6cb"
             text_color = "#155724"
         elif result_class == 'leaf curl':
@@ -250,14 +248,13 @@ else:
         elif result_class == 'yellow':
              treatment_text = "⚠️ **คำแนะนำ:** อาการใบเหลือง อาจเกิดจากการขาดสารอาหาร หรือไวรัส ควรตรวจสอบดินและใส่ปุ๋ยบำรุง"
              
-        # แสดงคำแนะนำในกล่องที่ดูสะอาดตา
         st.markdown(f"""
             <div style="background-color: {treatment_bg}; color: {text_color}; padding: 18px; border-radius: 12px; border: 1px solid {treatment_border}; line-height: 1.6;">
                 {treatment_text}
             </div>
         """, unsafe_allow_html=True)
 
-# Footer สวยๆ
+# Footer
 st.markdown("""
 <div style="text-align: center; margin-top: 60px; color: #e0e0e0; font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 20px;">
     โครงงานวิจัยทางคอมพิวเตอร์ • มหาวิทยาลัยราชภัฏอุบลราชธานี<br>

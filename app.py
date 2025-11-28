@@ -2,6 +2,7 @@ import streamlit as st
 import tensorflow as tf
 from PIL import Image, ImageOps
 import numpy as np
+import time
 import os
 
 # --- 1. ตั้งค่าหน้าเว็บ ---
@@ -171,23 +172,45 @@ def local_css():
 
 local_css()
 
-# --- 3. โหลดโมเดล ---
+# --- 3. โหลดโมเดล (ปรับปรุงใหม่ ให้แจ้งเตือนชัดๆ) ---
 @st.cache_resource
 def load_model():
     filename = 'efficientnetb4_model.h5'
+    
+    # เช็คว่ามีไฟล์ไหม ถ้าไม่มีให้โหลด
     if not os.path.exists(filename):
         file_id = '1tURhAR8mXLAgnuU3EULswpcFGxnalWAV'
         url = f'https://drive.google.com/uc?id={file_id}'
-        with st.status("⏳ กำลังดาวน์โหลดโมเดล...", expanded=True) as status:
-            try:
-                import gdown
-                gdown.download(url, filename, quiet=False)
-                if os.path.exists(filename):
-                    status.update(label="✅ เสร็จสิ้น!", state="complete", expanded=False)
-                else:
+        
+        # 1. สร้าง Placeholder เพื่อจองพื้นที่แสดงข้อความ
+        download_placeholder = st.empty()
+        
+        # 2. แสดงกล่องแจ้งเตือนขนาดใหญ่
+        with download_placeholder.container():
+            st.warning("""
+                ⚠️ **กำลังดาวน์โหลดโมเดล AI (ครั้งแรกเท่านั้น)...**
+                
+                ไฟล์มีขนาดใหญ่ กรุณารอสักครู่ ระบบกำลังเตรียมความพร้อม...
+            """)
+            # แสดง Spinner หมุนๆ ให้รู้ว่าทำงานอยู่
+            with st.spinner("🚀 กำลังดึงข้อมูลจาก Server... (ห้ามปิดหน้านี้)"):
+                try:
+                    import gdown
+                    gdown.download(url, filename, quiet=False)
+                    
+                    if os.path.exists(filename):
+                        # โหลดเสร็จ เปลี่ยนเป็นสีเขียวแจ้งเตือน
+                        download_placeholder.success("✅ ดาวน์โหลดเสร็จสิ้น! พร้อมใช้งาน")
+                        time.sleep(2) # โชว์ค้างไว้ 2 วินาที
+                        download_placeholder.empty() # ลบกล่องทิ้งไปเลย เพื่อความสะอาด
+                    else:
+                        download_placeholder.error("❌ ดาวน์โหลดไม่สำเร็จ กรุณาลองใหม่")
+                        return None
+                except Exception as e:
+                    download_placeholder.error(f"❌ เกิดข้อผิดพลาด: {e}")
                     return None
-            except:
-                return None
+                    
+    # โหลดโมเดลเข้า TensorFlow
     try:
         return tf.keras.models.load_model(filename)
     except:

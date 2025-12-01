@@ -247,7 +247,7 @@ def load_model():
     # -------------------------------------------------------------
     # ⚠️ [สำคัญ] แก้ไขตรงนี้: ใส่ File ID จาก Google Drive ของคุณ ⚠️
     # -------------------------------------------------------------
-    file_id = 'ใส่_FILE_ID_ของไฟล์_h5_ตรงนี้' 
+    file_id = '1zeAce_cSSgbDf6TsbOkF1QzwgtY80758' 
     # ตัวอย่าง: file_id = '1234abcd5678efgh...'
     
     url = f'https://drive.google.com/uc?id={file_id}'
